@@ -7,16 +7,18 @@ const {
   password
 } = require('./dbConfig');
 
-let auth = username && password && `${username}:${password}@`,
-    databaseString = database 
+let options = {
+  user: username,
+  pass: password,
+  dbName: database
+};
 
-console.log(`mongodb://${auth||''}${host}:${port}/${database}`);
-mongoose.connect(`mongodb://${auth||''}localhost:${host}/${database}`);
-
-let db = mongoose.connection;
-
-db.on('error',console.error.bind(console, 'connection error:'))
-
-db.once('open', function () {
-  console.log('dones');
-});
+module.exports = ()=>{
+  mongoose.connect(`mongodb://${host}:${port}`, options)
+    .then(ret=>{
+      console.log('connecting to database successfully');
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+};
