@@ -4,7 +4,7 @@ const router = new Router();
 
 router
   .post('userlogin', '/login', (ctx)=>{
-    console.log('login');
+
   })
   .post('userregister', '/register', (ctx)=>{
 
