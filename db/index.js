@@ -22,3 +22,6 @@ module.exports = ()=>{
       console.log(err);
     });
 };
+
+
+module.exports.mon = mongoose;

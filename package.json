@@ -3,7 +3,9 @@
     "nodemon": "^1.17.3"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "koa": "^2.5.0",
+    "koa-body": "^2.5.0",
     "koa-router": "^7.4.0",
     "mongoose": "^5.0.14"
   }
