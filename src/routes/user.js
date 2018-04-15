@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const User = require('../entity/user');
+const userService = require('../service/user');
 const axios = require('axios');
 
 const router = new Router();
@@ -16,6 +17,12 @@ router.post('/login', async (ctx)=>{
       grant_type: 'authorization_code'
     }
   });
+
+  let user = await userService.findUserById(ret.openid);
+
+  if(user===null){
+
+  }
 
   console.log(ret.data);
 
