@@ -4,16 +4,22 @@ const axios = require('axios');
 
 const router = new Router();
 
-router.post('/login', (ctx)=>{
-  console.log(ctx.reqbody);
+router.post('/login', async (ctx)=>{
+
   let {code} = ctx.reqbody;
 
-  axios.get('https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
-').
+  let ret = await axios.get('https://api.weixin.qq.com/sns/jscode2session' ,{
+    params:{
+      appid: '',
+      secret: '',
+      js_code: code,
+      grant_type: 'authorization_code'
+    }
+  });
 
+  console.log(ret.data);
 
-
-  ctx.body = {code: 0}
+  ctx.body = ret.data;
 });
 
 router.post('/register', async (ctx, next)=>{
