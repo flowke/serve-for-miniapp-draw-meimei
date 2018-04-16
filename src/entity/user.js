@@ -1,30 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = {Schema} = require('mongoose');
 
-let Schema = mongoose.Schema;
-
+let TP = Schema.Types;
 
 const userSchema = new mongoose.Schema({
-  username: {
+  openid: {
     type: String,
-    required: [true, '必须填写用户名'],
-    unique: true,
-    minlength: [4, '最小长度是4']
+    require: true
   },
-  password: {
-    type: String,
-    required: [true, '必须填写密码']
-  },
+  friends: [TP.Mixed],
+  symbols: [TP.Mixed]
 },{
   timestamps: true,
 });
 
-
 const User = mongoose.model('User', userSchema);
 
-
 module.exports = User;
-
-
-new Promise(resolve=>{
-
-});
