@@ -8,6 +8,21 @@ const router = new Router();
 
 let {ObjectId} = Schema.Types;
 
+router.use( async (ctx, next)=>{
+  let userID = userService.checkSession();
+
+  if(userID){
+    await next();
+  }else{
+    res.body = {
+      code: 444,
+      msg: '登录过期, 请重新登录'
+    }
+  }
+
+
+})
+
 router.post('/login', async (ctx)=>{
 
   let {code} = ctx.reqbody;
@@ -31,6 +46,8 @@ router.post('/login', async (ctx)=>{
     user = await userService.addUser(data.openid);
   };
 
+  await userService.setSession(ctx, user.id)
+
   ctx.body = {
     code: 0,
     msg: '登录成功',
@@ -38,23 +55,11 @@ router.post('/login', async (ctx)=>{
   };
 });
 
-router.post('/register', async (ctx, next)=>{
-  let {id} = ctx.reqbody;
-
-  // 添加用户
-  let userinfo = await User.create({_id: id })
-    .catch(err=>{
-      if(err.username){
-
-      }
-      return err;
-    });
-
-  ctx.body = userinfo;
-});
-
-router.post('/logout', (ctx)=>{
-
+router.post('/logout', async (ctx)=>{
+  console.log(ctx.reqbody);
+  console.log('/outs');
+  let a = await Promise.resolve('fds');
+  ctx.body = {a}
 });
 
 module.exports = ()=>router.routes();

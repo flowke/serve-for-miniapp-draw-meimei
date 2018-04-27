@@ -1131,6 +1131,14 @@ koa-router@^7.4.0:
     path-to-regexp "^1.1.1"
     urijs "^1.19.0"
 
+koa-session2-mongostore@^0.0.4:
+  version "0.0.4"
+  resolved "http://registry.npm.taobao.org/koa-session2-mongostore/download/koa-session2-mongostore-0.0.4.tgz#949c5ca69f784b6241fbfb809e55f0c3a0728a00"
+
+koa-session2@^2.2.5:
+  version "2.2.5"
+  resolved "http://registry.npm.taobao.org/koa-session2/download/koa-session2-2.2.5.tgz#555af1ee28a47c566968b4239b14c05715dbb3c1"
+
 koa@^2.5.0:
   version "2.5.0"
   resolved "http://registry.npm.taobao.org/koa/download/koa-2.5.0.tgz#b0fbe1e195e43b27588a04fd0be0ddaeca2c154c"

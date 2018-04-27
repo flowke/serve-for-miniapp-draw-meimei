@@ -3,18 +3,24 @@ const User = require('../entity/user');
 
 const router = new Router();
 
+
+
 router.post('/add', async (ctx)=>{
 
   let {
-    markTitle,
-    markAddress,
+    latitude,
+    longitude,
+    title,
+    address,
     incidents,
     userID
   } = ctx.reqbody;
 
   let markers = await User.addMark(userID, {
-    title: markTitle,
-    address: markAddress,
+    latitude,
+    longitude,
+    title,
+    address,
     events: incidents,
   });
 
@@ -35,5 +41,16 @@ router.post('/add', async (ctx)=>{
 
 });
 
+router.get('/get', async ctx=>{
+  let {userID} = ctx.query;
+
+  let markers = await User.getMarkers(userID);
+  ctx.session.view = 9;
+  ctx.body = {
+    code: 0,
+    data: markers
+  }
+
+})
 
 module.exports = ()=>router.routes();

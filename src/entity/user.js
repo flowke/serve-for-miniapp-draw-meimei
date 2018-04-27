@@ -11,8 +11,11 @@ let eventSchema = new Schema({
 let markSchema = new Schema({
   title: String,
   address: String,
+  latitude: String,
+  longitude: String,
   events:[eventSchema]
 });
+
 
 const userSchema = new Schema({
   openid: {

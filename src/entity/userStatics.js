@@ -9,5 +9,9 @@ module.exports = {
 
       return user.markers;
     });
+  },
+
+  getMarkers(id){
+    return this.findById(id, 'markers');
   }
 };

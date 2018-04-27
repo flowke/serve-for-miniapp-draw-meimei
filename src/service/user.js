@@ -1,6 +1,6 @@
 const User = require('../entity/user');
 
-// 注意, 要么是 0, 要么是 1, 
+// 注意, 要么是 0, 要么是 1,
 let userField = {
   _id: 1,
   createdAt: 1,
@@ -35,8 +35,22 @@ function findUserByOpenid(openid) {
   return User.findOne({openid}, userField).exec();
 }
 
+function setSession(ctx,userID) {
+  ctx.session.userID = userID;
+  return Promise.resolve();
+}
+function checkSession(ctx,userID) {
+  if(ctx.session.userID){
+    return Promise.resolve(ctx.session.userID);
+  }else{
+    return Promise.reject();
+  }
+}
+
 module.exports = {
   findUserById,
   addUser,
-  findUserByOpenid
+  findUserByOpenid,
+  setSession,
+  checkSession
 };
