@@ -1,9 +1,28 @@
 const Router = require('koa-router');
 const User = require('../entity/user');
-
+const userAuth = require('../middlewares/userAuth');
 const router = new Router();
 
+// 往下的 action 需要用户认证
+router.use(userAuth);
 
+router.get('/get', async ctx=>{
+  let {userID} = ctx.query;
+
+  try {
+    let markers = await User.getMarkers(userID);
+    ctx.body = {
+      code: 0,
+      data: markers
+    }
+  }catch(e){
+    ctx.body = {
+      code: 1,
+      meg: '获取 markers 失败'
+    }
+  }
+
+});
 
 router.post('/add', async (ctx)=>{
 
@@ -13,26 +32,26 @@ router.post('/add', async (ctx)=>{
     title,
     address,
     incidents,
-    userID
   } = ctx.reqbody;
 
-  let markers = await User.addMark(userID, {
-    latitude,
-    longitude,
-    title,
-    address,
-    events: incidents,
-  });
+  let {userID} = ctx.session;
 
-  console.log(markers);
+  try{
+    let markers = await User.addMark(userID, {
+      latitude,
+      longitude,
+      title,
+      address,
+      events: incidents,
+    });
 
-  if(markers){
     ctx.body = {
       data: markers,
       code: 0,
       msg: '保存 marker 成功'
     }
-  }else{
+
+  }catch(e){
     ctx.body = {
       code: 1,
       msg: '保存 marker 失败'
@@ -40,17 +59,5 @@ router.post('/add', async (ctx)=>{
   }
 
 });
-
-router.get('/get', async ctx=>{
-  let {userID} = ctx.query;
-
-  let markers = await User.getMarkers(userID);
-  ctx.session.view = 9;
-  ctx.body = {
-    code: 0,
-    data: markers
-  }
-
-})
 
 module.exports = ()=>router.routes();

@@ -35,16 +35,11 @@ function findUserByOpenid(openid) {
   return User.findOne({openid}, userField).exec();
 }
 
-function setSession(ctx,userID) {
+function setSession(ctx, userID) {
   ctx.session.userID = userID;
-  return Promise.resolve();
 }
-function checkSession(ctx,userID) {
-  if(ctx.session.userID){
-    return Promise.resolve(ctx.session.userID);
-  }else{
-    return Promise.reject();
-  }
+function checkSession(ctx) {
+  return ctx.session.userID;
 }
 
 module.exports = {

@@ -1,27 +1,9 @@
 const Router = require('koa-router');
-const {Schema} = require('mongoose');
 const User = require('../entity/user');
 const userService = require('../service/user');
 const axios = require('axios');
 
 const router = new Router();
-
-let {ObjectId} = Schema.Types;
-
-router.use( async (ctx, next)=>{
-  let userID = userService.checkSession();
-
-  if(userID){
-    await next();
-  }else{
-    res.body = {
-      code: 444,
-      msg: '登录过期, 请重新登录'
-    }
-  }
-
-
-})
 
 router.post('/login', async (ctx)=>{
 
@@ -46,7 +28,7 @@ router.post('/login', async (ctx)=>{
     user = await userService.addUser(data.openid);
   };
 
-  await userService.setSession(ctx, user.id)
+  userService.setSession(ctx, user.id);
 
   ctx.body = {
     code: 0,
