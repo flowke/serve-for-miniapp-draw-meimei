@@ -10,10 +10,11 @@ router.get('/get', async ctx=>{
   let {userID} = ctx.query;
 
   try {
-    let markers = await User.getMarkers(userID);
+    let res = await User.getMarkers(userID);
+
     ctx.body = {
       code: 0,
-      data: markers
+      data: res.markers
     }
   }catch(e){
     ctx.body = {
