@@ -13,5 +13,28 @@ module.exports = {
 
   getMarkers(id){
     return this.findById(id, 'markers');
-  }
+  },
+
+  editAddress({
+    markerID,
+    title,
+    address,
+    latitude,
+    longitude,
+    userID
+  }){
+    return this.findById(userID, 'markers')
+    .then(user=>{
+      user.markers.id(markerID)
+      .set({
+        title,
+        address,
+        latitude,
+        longitude,
+      });
+
+      return user.save();
+    })
+    .then(res=>res.markers);
+  },
 };

@@ -6,6 +6,7 @@ const router = new Router();
 // 往下的 action 需要用户认证
 router.use(userAuth);
 
+// 获取 marker 信息
 router.get('/get', async ctx=>{
   let {userID} = ctx.query;
 
@@ -58,6 +59,43 @@ router.post('/add', async (ctx)=>{
       msg: '保存 marker 失败'
     }
   }
+
+});
+
+router.post('/edit-address', async ctx=>{
+  let {
+    markerID,
+    title,
+    address,
+    latitude,
+    longitude,
+  } = ctx.reqbody;
+
+  let {userID} = ctx.session;
+
+  try{
+    let markers = await User.editAddress({
+      markerID,
+      title,
+      address,
+      latitude,
+      longitude,
+      userID
+    });
+
+    ctx.body = {
+      code: 0,
+      msg: '更新地址成功',
+      data: markers
+    };
+
+  }catch(e){
+    ctx.body = {
+      code: 1,
+      msg: '更新地址失败'
+    };
+  }
+
 
 });
 
