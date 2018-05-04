@@ -54,6 +54,7 @@ router.post('/add', async (ctx)=>{
     }
 
   }catch(e){
+    console.log(e);
     ctx.body = {
       code: 1,
       msg: '保存 marker 失败'
@@ -95,8 +96,68 @@ router.post('/edit-address', async ctx=>{
       msg: '更新地址失败'
     };
   }
+});
 
+router.post('/edit-event', async ctx=>{
+  let {
+    markerID,
+    eventID,
+    incidentTime,
+    incidentDesc
+  } = ctx.reqbody;
 
+  let {userID} = ctx.session;
+
+  try{
+    let markers = await User.editEvent({
+      ...ctx.reqbody,
+      userID
+    });
+
+    console.log(markers);
+
+    ctx.body = {
+      code: 0,
+      msg: '修改 markers 成功',
+      data: markers
+    };
+
+  }catch(e){
+    console.log(e);
+    ctx.body={
+      code: 1,
+      msg: e
+    }
+  }
+});
+
+router.post('/add-event', async ctx=>{
+  let {
+    markerID,
+    incidentTime,
+    incidentDesc
+  } = ctx.reqbody;
+
+  let {userID} = ctx.session;
+
+  try{
+    let markers = await User.addEvent({
+      ...ctx.reqbody,
+      userID
+    });
+
+    ctx.body = {
+      code: 0,
+      msg: '添加 markers 成功',
+      data: markers
+    };
+
+  }catch(e){
+    ctx.body={
+      code: 1,
+      msg: e
+    }
+  }
 });
 
 module.exports = ()=>router.routes();
