@@ -15,11 +15,12 @@ connDB();
 // 注册所有中间件
 app
   .use( session({
+    maxAge: 3600*24 * 1000,
     store: new MongoStore({
-      maxAge: 3600*2 * 1000,
+
       url: dbConfig.url,
       dbName: dbConfig.dbName,
-      maxAge: 3600*2
+      maxAge: 3600*24
     })
   }))
   .use( appMiddlewares);
