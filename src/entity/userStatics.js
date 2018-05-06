@@ -1,6 +1,6 @@
 module.exports = {
   addMark(id, data){
-
+    console.log(data);
     return this.findById(id)
     .then(user=>{
       user.markers.push(data);

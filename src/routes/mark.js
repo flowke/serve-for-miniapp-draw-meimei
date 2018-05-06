@@ -114,7 +114,7 @@ router.post('/edit-event', async ctx=>{
       userID
     });
 
-    console.log(markers);
+
 
     ctx.body = {
       code: 0,
