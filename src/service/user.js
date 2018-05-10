@@ -27,7 +27,6 @@ function addUser(openid) {
     }
     return out;
   });
-
 }
 
 // 通过 openid查询用户信息

@@ -54,13 +54,36 @@ router.post('/add', async (ctx)=>{
     }
 
   }catch(e){
-    console.log(e);
+
     ctx.body = {
       code: 1,
       msg: '保存 marker 失败'
     }
   }
 
+});
+
+router.post('/delete', async ctx=>{
+  let {
+    ids
+  } = ctx.reqbody;
+
+  let {userID} = ctx.session;
+
+  try{
+    let mks = await User.deleteMarkers(userID, ids);
+
+    ctx.body = {
+      code: 0,
+      data: mks
+    }
+  }catch(e){
+    console.log(e);
+    ctx.body = {
+      code: 1,
+      msg: '删除失败'
+    }
+  }
 });
 
 router.post('/edit-address', async ctx=>{
@@ -114,8 +137,6 @@ router.post('/edit-event', async ctx=>{
       userID
     });
 
-
-
     ctx.body = {
       code: 0,
       msg: '修改 markers 成功',
@@ -158,6 +179,29 @@ router.post('/add-event', async ctx=>{
       msg: e
     }
   }
+});
+
+router.post('/delete-event', async ctx=>{
+  let {eventID, markerID} = ctx.reqbody;
+  let {userID} = ctx.session;
+
+  try{
+
+    let mks = await User.deleteEvent(userID, markerID, eventID);
+
+    ctx.body = {
+      code: 0,
+      data: mks
+    };
+
+  }catch(e){
+
+    ctx.body = {
+      code: 1,
+      msg: '删除失败'
+    }
+  }
+
 });
 
 module.exports = ()=>router.routes();

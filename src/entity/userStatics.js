@@ -1,6 +1,6 @@
 module.exports = {
   addMark(id, data){
-    console.log(data);
+
     return this.findById(id)
     .then(user=>{
       user.markers.push(data);
@@ -10,6 +10,16 @@ module.exports = {
 
       return user.markers;
     });
+  },
+  deleteMarkers(userID, markerIds){
+
+    return this.findByIdAndUpdate(userID, {
+      $pull:{
+      markers: {_id:{$in: markerIds}}
+    }},{
+      new:true
+    })
+    .then(res=>res.markers);
   },
 
   getMarkers(id){
@@ -75,4 +85,13 @@ module.exports = {
       .then(res=>res.markers);
   },
 
+  deleteEvent(userID, markerID, eventID){
+    return this.findById(userID)
+    .then(user=>{
+      user.markers.id(markerID).events.id(eventID)
+      .remove();
+      return user.save();
+    })
+    .then(user=>user.markers)
+  }
 };

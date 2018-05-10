@@ -9,6 +9,8 @@ router.post('/login', async (ctx)=>{
 
   let {code} = ctx.reqbody;
 
+
+
   // 取得 openid session_key
   let {data} = await axios.get('https://api.weixin.qq.com/sns/jscode2session' ,{
     params:{
@@ -35,13 +37,22 @@ router.post('/login', async (ctx)=>{
     msg: '登录成功',
     data: user
   };
+
 });
 
-router.post('/logout', async (ctx)=>{
-  console.log(ctx.reqbody);
-  console.log('/outs');
-  let a = await Promise.resolve('fds');
-  ctx.body = {a}
+router.post('/checkLogin', async (ctx)=>{
+  let userID = userService.checkSession(ctx);
+  if(userID){
+    ctx.body = {
+      code: 0,
+      msg: '登录有效'
+    };
+  }else{
+    ctx.body = {
+      code: 1,
+      msg: '需重新登录'
+    }
+  }
 });
 
 module.exports = ()=>router.routes();
