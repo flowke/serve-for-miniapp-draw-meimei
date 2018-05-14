@@ -3,10 +3,7 @@ module.exports = {
     return this.findById(id, 'markers userInfo')
   },
   saveUserInfo(userID,userInfo){
-    return this.findById(userID)
-    .then(res=>{
-      console.log(res);
-    })
+    return this.updateOne({_id:userID},{userInfo});
   },
   addMark(id, data){
 

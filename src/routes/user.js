@@ -59,11 +59,12 @@ router.post('/save-userinfo', async ctx=>{
   } = ctx.reqbody;
 
   try{
-    let rt = await User.saveUserInfo(userInfo);
-    console.log(rt);
-    ctx.body = {
-      code: 0,
-      data: rt
+    let rt = await User.saveUserInfo(userID, userInfo);
+    if(rt.ok===1){
+      ctx.body = {
+        code: 0,
+        data: rt
+      }
     }
   }catch(e){
     console.log(e);

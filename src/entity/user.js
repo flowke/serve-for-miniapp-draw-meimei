@@ -24,15 +24,7 @@ const userSchema = new Schema({
   },
   friends: [{type: TP.ObjectId, ref: 'User'}],
   markers: [markSchema],
-  userInfo: {
-    avatarUrl: String,
-    city: String,
-    country: String,
-    gender: Number,
-    language: String,
-    nickName: String,
-    province: String
-  }
+  userInfo: {}
 },{
   timestamps: true,
 });
