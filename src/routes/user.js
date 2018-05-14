@@ -5,11 +5,23 @@ const axios = require('axios');
 
 const router = new Router();
 
+router.get('/get-profile', async ctx=>{
+  let {userID} = ctx.query;
+  try {
+    let user = await User.getProfile(userID);
+    ctx.body = {
+      code: 0,
+      data: user
+    }
+  }catch(e){
+
+  }
+
+});
+
 router.post('/login', async (ctx)=>{
 
   let {code} = ctx.reqbody;
-
-
 
   // 取得 openid session_key
   let {data} = await axios.get('https://api.weixin.qq.com/sns/jscode2session' ,{
@@ -39,6 +51,25 @@ router.post('/login', async (ctx)=>{
   };
 
 });
+
+router.post('/save-userinfo', async ctx=>{
+  let {userID} = ctx.session;
+  let {
+    userInfo
+  } = ctx.reqbody;
+
+  try{
+    let rt = await User.saveUserInfo(userInfo);
+    console.log(rt);
+    ctx.body = {
+      code: 0,
+      data: rt
+    }
+  }catch(e){
+    console.log(e);
+  }
+
+})
 
 router.post('/checkLogin', async (ctx)=>{
   let userID = userService.checkSession(ctx);

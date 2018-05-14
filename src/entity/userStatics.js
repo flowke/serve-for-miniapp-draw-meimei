@@ -1,4 +1,13 @@
 module.exports = {
+  getProfile(id){
+    return this.findById(id, 'markers userInfo')
+  },
+  saveUserInfo(userID,userInfo){
+    return this.findById(userID)
+    .then(res=>{
+      console.log(res);
+    })
+  },
   addMark(id, data){
 
     return this.findById(id)
