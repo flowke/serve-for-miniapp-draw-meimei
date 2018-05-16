@@ -3,9 +3,6 @@ const User = require('../entity/user');
 const userAuth = require('../middlewares/userAuth');
 const router = new Router();
 
-// 往下的 action 需要用户认证
-router.use(userAuth);
-
 // 获取 marker 信息
 router.get('/get', async ctx=>{
   let {userID} = ctx.query;
@@ -24,6 +21,9 @@ router.get('/get', async ctx=>{
     }
   }
 });
+
+// 往下的 action 需要用户认证
+router.use(userAuth);
 
 router.post('/add', async (ctx)=>{
 
