@@ -1,4 +1,7 @@
 module.exports = {
+  getUsers(){
+    return this.find();
+  },
   getProfile(id){
     return this.findById(id, 'markers userInfo')
   },

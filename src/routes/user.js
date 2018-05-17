@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const User = require('../entity/user');
+const userAuth = require('../middlewares/userAuth');
 const userService = require('../service/user');
 const axios = require('axios');
 
@@ -18,6 +19,9 @@ router.get('/get-profile', async ctx=>{
   }
 
 });
+
+// 往下的 action 需要用户认证
+router.use(userAuth);
 
 router.post('/login', async (ctx)=>{
 
@@ -84,6 +88,14 @@ router.post('/checkLogin', async (ctx)=>{
       code: 1,
       msg: '需重新登录'
     }
+  }
+});
+
+router.get('/getFriends', async ctx=>{
+  let users = await User.getUsers();
+  ctx.body = {
+    code: 0,
+    data: users
   }
 });
 
