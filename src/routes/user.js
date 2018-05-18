@@ -20,9 +20,6 @@ router.get('/get-profile', async ctx=>{
 
 });
 
-// 往下的 action 需要用户认证
-router.use(userAuth);
-
 router.post('/login', async (ctx)=>{
 
   let {code} = ctx.reqbody;
@@ -55,6 +52,9 @@ router.post('/login', async (ctx)=>{
   };
 
 });
+
+// 往下的 action 需要用户认证
+router.use(userAuth);
 
 router.post('/save-userinfo', async ctx=>{
   let {userID} = ctx.session;
