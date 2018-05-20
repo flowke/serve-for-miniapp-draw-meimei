@@ -17,7 +17,6 @@ router.get('/get-profile', async ctx=>{
   }catch(e){
 
   }
-
 });
 
 router.post('/login', async (ctx)=>{
@@ -35,12 +34,12 @@ router.post('/login', async (ctx)=>{
   });
 
   // 通过 openid 查找用户信息
-  let user = await userService.findUserByOpenid(data.openid);
+  let user = await User.findUserByOpenid(data.openid);
 
   // 如果没有用户信息
   // 添加一个用户到数据库
   if(user===null){
-    user = await userService.addUser(data.openid);
+    user = await User.addUser(data.openid);
   };
 
   userService.setSession(ctx, user.id);
@@ -48,7 +47,7 @@ router.post('/login', async (ctx)=>{
   ctx.body = {
     code: 0,
     msg: '登录成功',
-    data: user
+    id: user.id
   };
 
 });
@@ -97,6 +96,47 @@ router.get('/getFriends', async ctx=>{
     code: 0,
     data: users
   }
+});
+router.post('/collect', async ctx=>{
+
+  let {userID} = ctx.session;
+  let {personID} = ctx.reqbody;
+
+  let ret = await User.collect(userID, personID);
+  ctx.body = {
+    code: 0,
+    data: ret
+  }
+});
+router.post('/delCollect', async ctx=>{
+
+  let {userID} = ctx.session;
+  let {personID} = ctx.reqbody;
+  let ret = await User.delCollect(userID, personID);
+  ctx.body = {
+    code: 0,
+    data: ret
+  }
+});
+router.post('/checkCollect', async ctx=>{
+
+  let {userID} = ctx.session;
+  let {personID} = ctx.reqbody;
+
+  let ret = await User.checkCollect(userID, personID);
+
+  if(ret){
+    ctx.body = {
+      code: 0,
+      hasCollect: true
+    }
+  }else{
+    ctx.body = {
+      code: 1,
+      hasCollect: false
+    }
+  }
+
 });
 
 module.exports = ()=>router.routes();

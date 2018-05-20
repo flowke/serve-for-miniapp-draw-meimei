@@ -1,6 +1,37 @@
 module.exports = {
+  // 添加一个用户
+  addUser(openid){
+    return this.create({openid});
+  },
+  // 通过 openid查询用户信息
+  findUserByOpenid(openid){
+    return this.findOne({openid}, '_id' );
+  },
   getUsers(){
-    return this.find();
+    return this.aggregate([
+      { $project : {
+          _id : 1 ,
+          sizeOfMarkers: {$size: "$markers"} ,
+          userInfo: 1
+        }
+      },
+    ])
+  },
+  getFriends(userID){
+
+  },
+  collect(userID, personID){
+    return this.updateOne({_id:userID},{
+      $addToSet: {friends: personID}
+    })
+  },
+  checkCollect(userID, personID){
+    return this.findOne({_id:userID,friends: personID});
+  },
+  delCollect(userID, personID){
+    return this.updateOne({_id:userID},{
+      $pull: {friends: personID}
+    })
   },
   getProfile(id){
     return this.findById(id, 'markers userInfo')
