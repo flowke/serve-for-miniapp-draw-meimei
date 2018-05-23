@@ -24,7 +24,12 @@ const userSchema = new Schema({
   },
   friends: [{type: TP.ObjectId, ref: 'User'}],
   markers: [markSchema],
-  userInfo: {}
+  userInfo: {
+    type: TP.Mixed,
+    default: {
+      nickName: '--^_^--'
+    }
+  }
 },{
   timestamps: true,
 });

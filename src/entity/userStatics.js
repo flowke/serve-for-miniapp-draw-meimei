@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 module.exports = {
   // 添加一个用户
   addUser(openid){
@@ -18,7 +20,27 @@ module.exports = {
     ])
   },
   getFriends(userID){
+    let that = this;
+    return this.aggregate([
+      {$match: {_id: ObjectId(userID)}},
+      {$unwind: '$friends'},
+      {$lookup: {
+        from: 'users',
+        localField: '_id',
+        foreignField: 'friends',
+        as: "friend"
+      }},
+      {$replaceRoot: {
+        newRoot: {
+          $arrayElemAt: [ '$friend', 0 ]
+        }
+      }},
+      {$project: {
+        userInfo: 1,
+        sizeOfMarkers: {$size: '$markers'}
+      }}
 
+    ])
   },
   collect(userID, personID){
     return this.updateOne({_id:userID},{

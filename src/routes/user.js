@@ -91,7 +91,8 @@ router.post('/checkLogin', async (ctx)=>{
 });
 
 router.get('/getFriends', async ctx=>{
-  let users = await User.getUsers();
+  let {userID} = ctx.session;
+  let users = await User.getFriends(userID);
   ctx.body = {
     code: 0,
     data: users
