@@ -16,12 +16,8 @@ let markSchema = new Schema({
   events:[eventSchema]
 });
 
-
 const userSchema = new Schema({
-  openid: {
-    type: String,
-    require: true
-  },
+  openid: String,
   friends: [{type: TP.ObjectId, ref: 'User'}],
   markers: [markSchema],
   userInfo: {
