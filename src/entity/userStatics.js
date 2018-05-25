@@ -3,7 +3,9 @@ const ObjectId = mongoose.Types.ObjectId;
 module.exports = {
   // 添加一个用户
   addUser(openid){
-    return this.create({openid});
+    let user = new this({openid});
+
+    return user.save();
   },
   // 通过 openid查询用户信息
   findUserByOpenid(openid){

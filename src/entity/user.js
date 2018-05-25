@@ -28,6 +28,7 @@ const userSchema = new Schema({
   }
 },{
   timestamps: true,
+  // autoIndex: false
 });
 
 userSchema.statics = statics;

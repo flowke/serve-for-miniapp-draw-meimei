@@ -32,10 +32,9 @@ router.post('/login', async (ctx)=>{
       grant_type: 'authorization_code'
     }
   });
-  console.log(data);
   // 通过 openid 查找用户信息
   let user = await User.findUserByOpenid(data.openid);
-  console.log(user);
+
   // 如果没有用户信息
   // 添加一个用户到数据库
   if(user===null){
