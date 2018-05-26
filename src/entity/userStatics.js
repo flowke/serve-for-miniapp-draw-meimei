@@ -4,7 +4,6 @@ module.exports = {
   // 添加一个用户
   addUser(openid){
     let user = new this({openid});
-
     return user.save();
   },
   // 通过 openid查询用户信息
@@ -22,7 +21,6 @@ module.exports = {
     ])
   },
   getFriends(userID){
-    let that = this;
     return this.aggregate([
       {$match: {_id: ObjectId(userID)}},
       {$unwind: '$friends'},
@@ -30,11 +28,11 @@ module.exports = {
         from: 'users',
         localField: '_id',
         foreignField: 'friends',
-        as: "friend"
+        as: "fd"
       }},
       {$replaceRoot: {
         newRoot: {
-          $arrayElemAt: [ '$friend', 0 ]
+          $arrayElemAt: [ '$fd', 0 ]
         }
       }},
       {$project: {
