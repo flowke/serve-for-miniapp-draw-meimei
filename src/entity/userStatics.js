@@ -21,6 +21,7 @@ module.exports = {
     ])
   },
   getFriends(userID){
+
     return this.aggregate([
       {$match: {_id: ObjectId(userID)}},
       {$unwind: '$friends'},

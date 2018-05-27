@@ -32,6 +32,7 @@ router.post('/login', async (ctx)=>{
       grant_type: 'authorization_code'
     }
   });
+
   // 通过 openid 查找用户信息
   let user = await User.findUserByOpenid(data.openid);
 
@@ -91,7 +92,7 @@ router.post('/checkLogin', async (ctx)=>{
 
 router.get('/getFriends', async ctx=>{
   let {userID} = ctx.session;
-  console.log(userID);
+
   let users = await User.getFriends(userID);
   ctx.body = {
     code: 0,
