@@ -18,8 +18,8 @@ app
     maxAge: 3600*2 * 1000,
     store: new MongoStore({
 
-      url: dbConfig.url,
-      dbName: dbConfig.options.dbName,
+      url: dbConfig,
+      // dbName: dbConfig.options.dbName,
       maxAge: 3600*2
     })
   }))
