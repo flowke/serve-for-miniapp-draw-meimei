@@ -19,7 +19,7 @@ app
     store: new MongoStore({
 
       url: dbConfig.url,
-      dbName: dbConfig.dbName,
+      dbName: dbConfig.options.dbName,
       maxAge: 3600*2
     })
   }))

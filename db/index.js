@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
 const {
   url,
-  dbName
+  options
 } = require('./dbConfig');
 
-let options = {
-  dbName
-};
 
 module.exports = ()=>{
   mongoose.connect(url, options)
